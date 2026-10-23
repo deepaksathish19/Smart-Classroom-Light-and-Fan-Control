@@ -1,0 +1,47 @@
+import random
+import time
+
+class ClassroomZone:
+    def __init__(self, zone_name):
+        self.zone_name = zone_name
+        self.is_occupied = False
+        self.light_status = "OFF"
+        self.fan_status = "OFF"
+        self.idle_time = 0
+
+    def update_sensor(self):
+        # Simulate occupancy randomly or based on activity
+        self.is_occupied = random.choice([True, False])
+        
+        if self.is_occupied:
+            self.light_status = "ON"
+            self.fan_status = "ON"
+            self.idle_time = 0
+            print(f"[{self.zone_name}] Status: Occupied 🟢 -> Appliances turned ON")
+        else:
+            self.idle_time += 1
+            print(f"[{self.zone_name}] Status: Vacant 🔴 -> Idle for {self.idle_time} cycle(s)")
+            if self.idle_time >= 2:  # Turn off after 2 idle cycles
+                self.light_status = "OFF"
+                self.fan_status = "OFF"
+                print(f"[{self.zone_name}] Energy Saving Mode: Appliances turned OFF automatically.")
+
+def main():
+    print("=== Zone-wise Smart Classroom Energy Management System ===")
+    zones = [
+        ClassroomZone("Zone A (Teacher Podium)"),
+        ClassroomZone("Zone B (Student Seating - Front)"),
+        ClassroomZone("Zone C (Student Seating - Back)")
+    ]
+
+    # Run simulation for 3 cycles
+    for cycle in range(1, 4):
+        print(f"\n--- Monitoring Cycle {cycle} ---")
+        for zone in zones:
+            zone.update_sensor()
+        time.sleep(1)
+
+    print("\nSimulation completed successfully! Energy optimized.")
+
+if __name__ == "__main__":
+    main()
